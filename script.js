@@ -15,7 +15,7 @@ function handleFile(event) {
     const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
     
     words = jsonData.filter(row => row[1] && row[2]).map(row => ({ english: row[1], translation: row[2] }));
-    alert('Excel fayl yuklandi!');
+    alert('Excel file uploaded!');
     showNextWord();
   };
   reader.readAsArrayBuffer(file);
@@ -23,7 +23,7 @@ function handleFile(event) {
 
 function showNextWord() {
   if (words.length === 0) {
-    alert('So‘zlar mavjud emas!');
+    alert('No words available. Upload Excel file!');
     return;
   }
   currentIndex = (currentIndex + 1) % words.length;
@@ -49,12 +49,12 @@ document.getElementById('prevButton').addEventListener('click', () => speakWord(
 document.getElementById('saveButton').addEventListener('click', () => {
   const savedWord = words[currentIndex];
   savedWords.push(savedWord);
-  alert(`${savedWord.english} saqlandi!`);
+  alert(`${savedWord.english} saved!`);
 });
 
 document.getElementById('downloadButton').addEventListener('click', () => {
   if (savedWords.length === 0) {
-    alert('Hech qanday so‘z saqlanmagan!');
+    alert('No words were spared!');
     return;
   }
   const newWorkbook = XLSX.utils.book_new();
@@ -76,7 +76,7 @@ document.addEventListener('keydown', (event) => {
     case 'ArrowDown':
       const savedWord = words[currentIndex];
       savedWords.push(savedWord); // Pastga tugma bilan saqlash
-      alert(`${savedWord.english} saqlandi!`);
+      alert(`${savedWord.english} saved!`);
       break;
     case 'ArrowUp':
       if (savedWords.length > 0) {
@@ -86,8 +86,24 @@ document.addEventListener('keydown', (event) => {
         XLSX.utils.book_append_sheet(newWorkbook, newSheet, 'Saved Words');
         XLSX.writeFile(newWorkbook, 'SavedVocabulary.xlsx');
       } else {
-        alert('Hech qanday so‘z saqlanmagan!');
+        alert('No words were spared!');
       }
       break;
   }
 });
+
+
+function toggleBlur() {
+  var text = document.getElementById("translation");
+  var icon = document.getElementById("eye-icon");
+
+  if (text.classList.contains("blurred")) {
+    text.classList.remove("blurred"); // Matnni aniq qilish
+    icon.classList.remove("bi-eye-slash-fill");
+    icon.classList.add("bi-eye-fill"); // Ochiq ko‘z
+  } else {
+    text.classList.add("blurred"); // Matnni hiralashtirish
+    icon.classList.remove("bi-eye-fill");
+    icon.classList.add("bi-eye-slash-fill"); // Yopiq ko‘z
+  }
+};
