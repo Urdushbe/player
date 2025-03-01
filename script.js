@@ -98,7 +98,7 @@ function toggleBlur() {
   var icon = document.getElementById("eye-icon");
 
   if (text.classList.contains("blurred")) {
-    text.classList.remove("blurred"); // Matnni aniq qilish
+    text.classList.remove("blurred"); // Matnni aniq qilish.
     icon.classList.remove("bi-eye-slash-fill");
     icon.classList.add("bi-eye-fill"); // Ochiq ko‘z
   } else {
